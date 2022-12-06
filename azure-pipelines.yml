@@ -10,6 +10,7 @@ resources:
 
 variables:
   tag: '$(Build.BuildId)'
+  imagename: 'sumanthviswanadhuni/python-app:$(Build.BuildId)'
 
 stages:
 - stage: Build
@@ -21,19 +22,10 @@ stages:
       vmImage: ubuntu-latest
     steps:
     - task: Docker@2
-      displayName: Build an image
-      inputs:
-        command: build
-        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
-        tags: |
-          $(tag)
-    - task: Docker@2
       inputs:
         containerRegistry: 'docker-registry'
-        command: 'login'
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'docker-registry'
-        repository: 'sumanth6'
+        repository: 'python-app'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile'
+    
+    

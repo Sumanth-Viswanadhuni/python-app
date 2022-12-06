@@ -1,31 +1,30 @@
-# Docker
-# Build a Docker image
-# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
-
+name : Docker-CI
 trigger:
-- main
-
-resources:
-- repo: self
-
+  branches:
+    include:
+      - master
+ 
+pool:
+  vmImage: 'ubuntu-latest'
+ 
 variables:
-  tag: '$(Build.BuildId)'
-  imagename: 'sumanthviswanadhuni/python-app:$(Build.BuildId)'
-
+  ImageName: 'sumanthviswanadhuni/python-app:$(Build.BuildId)'
+ 
 stages:
 - stage: Build
   displayName: Build image
-  jobs:
+  jobs:  
   - job: Build
-    displayName: Build
-    pool:
-      vmImage: ubuntu-latest
+    displayName: Build and push Docker image
     steps:
-    - task: Docker@2
+    - task: Docker@1
+      displayName: 'Build the Docker image'
       inputs:
-        containerRegistry: 'docker-registry'
-        repository: 'python-app'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-    
-    
+        containerregistrytype: 'Container Registry'
+        dockerRegistryEndpoint: 'docker-registry'
+        command: 'Build an image'
+        dockerFile: '**/Dockerfile'
+        imageName: '$(ImageName)'
+        includeLatestTag: true
+        useDefaultContext: false
+        buildContext: '.'

@@ -11,6 +11,7 @@ variables:
   ImageName: 'sumanthviswanadhuni/python-app:$(Build.BuildId)'
  
 stages:
+- template: ./template/ci-steps.yaml
 - stage: Build
   displayName: Build image
   jobs:  

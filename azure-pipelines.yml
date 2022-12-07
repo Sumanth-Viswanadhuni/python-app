@@ -11,13 +11,14 @@ variables:
   ImageName: 'sumanthviswanadhuni/python-app:$(Build.BuildId)'
  
 stages:
-- template: ./template/ci-steps.yaml
 - stage: Build
   displayName: Build image
   jobs:  
   - job: Build
     displayName: Build and push Docker image
     steps:
+    - template: ./template/ci-steps.yaml
+
     - task: Docker@1
       displayName: 'Build the Docker image'
       inputs:

@@ -17,4 +17,4 @@ stages:
   - job: Build
     displayName: Build and push Docker image
     steps:
-    - template: ./template/ci-steps.yaml
+    - template: ./template/CI-steps.yaml
